@@ -1,9 +1,8 @@
 package main
 
-import (
-	"fmt"
-)
+import "github.com/piochelepiotr/chess/chessboard"
 
 func main() {
-	fmt.Println("vim-go")
+	board := chessboard.CreateChessboard()
+	board.FindPath(chessboard.NameToPosition("G3"), chessboard.NameToPosition("B6"))
 }
