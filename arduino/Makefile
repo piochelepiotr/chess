@@ -6,8 +6,10 @@ ARDUINO_DIR   = /Applications/Arduino.app/Contents/Java
 BOARD_TAG    = uno
 MONITOR_PORT  = /dev/cu.usbmodem1431
 
-
 include ~/Arduino-Makefile/Arduino.mk
+
+serial:
+	cat $(MONITOR_PORT)
 
 
 # ARDUINO_DIR   = /Applications/Arduino.app/Contents/Java
