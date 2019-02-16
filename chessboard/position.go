@@ -7,21 +7,27 @@ import (
 
 //Position is a position on the chessboard
 type Position struct {
-	x int
-	y int
+	X int
+	Y int
 }
 
-func (p *Position) getIndex() int {
-	return boardHeight*p.x + p.y
+// CreatePosition creates a new position
+func CreatePosition(x, y int) Position {
+	return Position{x, y}
 }
 
-func (p *Position) add(x, y int) Position {
-	return Position{p.x + x, p.y + y}
+func (p Position) getIndex() int {
+	return boardHeight*p.X + p.Y
+}
+
+// Add adds Position{x,y} to position
+func (p Position) Add(x, y int) Position {
+	return Position{p.X + x, p.Y + y}
 }
 
 func (p Position) toName() string {
 	const letters = "XXHGFEDCBAXX"
-	return fmt.Sprintf("%c%d", letters[p.x], p.y+1)
+	return fmt.Sprintf("%c%d", letters[p.X], p.Y+1)
 }
 
 func fromIndex(index int) Position {

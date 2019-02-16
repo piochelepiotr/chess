@@ -12,11 +12,11 @@ type Chessboard struct {
 }
 
 func (b *Chessboard) setPiece(p Position, piece Piece) {
-	b.pieces[p.x][p.y] = piece
+	b.pieces[p.X][p.Y] = piece
 }
 
 func (b *Chessboard) getPiece(p Position) Piece {
-	return b.pieces[p.x][p.y]
+	return b.pieces[p.X][p.Y]
 }
 
 // CreateChessboard inits the chessboard with the default chessboard configuration
@@ -63,10 +63,12 @@ func getSquares() []Position {
 	return squares
 }
 
-func (b *Chessboard) freePosition(p Position) bool {
+// FreePosition returns true if the position
+// is in the board and doesn't have a piece on it
+func (b *Chessboard) FreePosition(p Position) bool {
 	return positionInBoard(p) && b.getPiece(p).color == transparent
 }
 
 func positionInBoard(p Position) bool {
-	return p.x >= 0 && p.y > 0 && p.x < boardWidth && p.y < boardHeight
+	return p.X >= 0 && p.Y > 0 && p.X < boardWidth && p.Y < boardHeight
 }
