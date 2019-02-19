@@ -1,6 +1,8 @@
 package physicalboard
 
 import (
+	"strconv"
+
 	"github.com/piochelepiotr/chess/chessboard"
 	"github.com/piochelepiotr/chess/utils"
 )
@@ -46,6 +48,7 @@ func groupMoves(moves []chessboard.Move, board *chessboard.Chessboard) []chessbo
 	if n == 0 {
 		return groupedMoves
 	}
+	groupedMoves = append(groupedMoves, moves[0])
 	currentShift := moves[0].Shift()
 	i := 1
 	for i < n {
@@ -58,4 +61,29 @@ func groupMoves(moves []chessboard.Move, board *chessboard.Chessboard) []chessbo
 		i++
 	}
 	return groupedMoves
+}
+
+func generateMoveCommand(endPosition realPosition) string {
+	x := strconv.FormatFloat(endPosition.x, 'f', 2, 64)
+	y := strconv.FormatFloat(endPosition.y, 'f', 2, 64)
+	return x + "/" + y
+}
+
+// generateArduinoCommands generate commands to move motors and turn on / off the electromagnet
+func generateArduinoCommands(moves []chessboard.Move, board *chessboard.Chessboard) []string {
+	commands := make([]string, 0)
+	currentMotorPosition := realPosition{-1, -1}
+	for _, move := range moves {
+		startPosition := getMoveStartPosition(move)
+		endPosition := getMoveEndPosition(move)
+		if currentMotorPosition != startPosition {
+			// release electromagnet
+			commands = append(commands, generateMoveCommand(startPosition))
+			// turn electromagnet on
+		}
+		commands = append(commands, generateMoveCommand(endPosition))
+		currentMotorPosition = endPosition
+	}
+	// release electromagnet
+	return commands
 }

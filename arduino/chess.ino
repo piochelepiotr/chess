@@ -48,7 +48,7 @@ void receivePosition(float *x, float *y)
     } while (inChar != '\n' && index < 20);
     inData[index-1] = '\0';
     int end;
-    Serial.println(inData);
+    //Serial.println(inData);
     *x = extractNumber(inData, index, &end);
     *y = extractNumber(inData+end+1, index, &end);
 }
@@ -67,6 +67,8 @@ void move(float x, float y)
     stepperMotorX.moveTo(positions[0]);
     steppers.moveTo(positions);
     steppers.runSpeedToPosition();
+    Serial.println("finished");
+    Serial.println("useless");
 }
 
 void loop()

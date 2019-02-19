@@ -8,18 +8,22 @@ import (
 
 // PhysicalBoard is the board that represents the connection to the arduino
 type PhysicalBoard struct {
-	chessboard *chessboard.Chessboard
+	Chessboard *chessboard.Chessboard
 }
 
 // MovePiece moves a piece on the physical board
 func (b *PhysicalBoard) MovePiece(startPosition, endPosition chessboard.Position) {
 	// Compute moves
-	moves := b.chessboard.FindPath(startPosition, endPosition)
+	moves := b.Chessboard.FindPath(startPosition, endPosition)
 	// Break Ls
-	movesWithoutL := breakLs(moves, b.chessboard)
+	movesWithoutL := breakLs(moves, b.Chessboard)
 	// Groups moves
-	groupedMoves := groupMoves(movesWithoutL, b.chessboard)
-	fmt.Println(groupedMoves)
+	groupedMoves := groupMoves(movesWithoutL, b.Chessboard)
 	// Compute motor moves (with back and forth), with electromagnet on / off
+	commands := generateArduinoCommands(groupedMoves, b.Chessboard)
 	// Sends moves to Arduino
+	for _, command := range commands {
+		fmt.Println("Sending command " + command)
+		SendCommand(command)
+	}
 }

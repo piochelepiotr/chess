@@ -1,8 +1,14 @@
 package main
 
-import "github.com/piochelepiotr/chess/chessboard"
+import (
+	"github.com/piochelepiotr/chess/chessboard"
+	"github.com/piochelepiotr/chess/physicalboard"
+)
 
 func main() {
 	board := chessboard.CreateChessboard()
-	board.FindPath(chessboard.NameToPosition("G3"), chessboard.NameToPosition("B6"))
+	physBoard := physicalboard.PhysicalBoard{
+		Chessboard: board,
+	}
+	physBoard.MovePiece(chessboard.NameToPosition("G3"), chessboard.NameToPosition("B6"))
 }
